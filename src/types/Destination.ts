@@ -1,0 +1,28 @@
+export type Destination = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  shortDescription: string | null;
+  location: string;
+  country: string;
+  region: string | null;
+  latitude: string | null;
+  longitude: string | null;
+  pricePerNight: number;
+  currency: string;
+  capacity: number;
+  amenities: string[];
+  highlights: string[];
+  rating: string | null;
+  reviewCount: number;
+  isFeatured: boolean;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  ownerId: string | null;
+  mainImage: string;
+  categoryId: number | null;
+  categoryName: string | null;
+  categorySlug: string | null;
+};
