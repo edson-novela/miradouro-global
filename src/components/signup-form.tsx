@@ -96,7 +96,7 @@ export function RegisterForm({
                       <FormItem>
                         <FormLabel>Username</FormLabel>
                         <FormControl>
-                          <Input type="text" placeholder="shadcn" {...field} />
+                          <Input type="text" placeholder="nome completo" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

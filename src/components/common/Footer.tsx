@@ -27,21 +27,12 @@ export default function Footer() {
       ],
     },
     {
-      title: "Serviços",
-      items: [
-        { name: "Roteiros Personalizados", href: "/servicos/personalizados" },
-        { name: "Viagens Corporativas", href: "/servicos/corporativas" },
-        { name: "Seguro Viagem", href: "/servicos/seguro" },
-        { name: "Vistos e Documentos", href: "/servicos/vistos" },
-      ],
-    },
-    {
       title: "Informações Legais",
       items: [
         { name: "Política de Privacidade", href: "/politica-de-privacidade" },
         { name: "Termos e Condições", href: "/termos" },
         { name: "Ajuda e Suporte", href: "/ajuda" },
-        { name: "Trabalhe Conosco", href: "/trabalhe-conosco" },
+        { name: "Trabalhe Conosco", href: "/contacto" },
       ],
     },
   ];

@@ -134,7 +134,7 @@ export default function Header() {
                       >
                         <Link
                           href="/minha-conta"
-                          className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                          className="px-4 py-2 rounded-2xl text-sm text-gray-700 hover:bg-gray-100 flex items-center"
                           onClick={() => setIsUserDropdownOpen(false)}
                         >
                           <FiSettings className="mr-2" />

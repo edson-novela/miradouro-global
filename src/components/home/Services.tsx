@@ -36,7 +36,7 @@ const services: Service[] = [
 export default function Services() {
   const [ref, inView] = useInView({
     threshold: 0.1,
-    triggerOnce: false
+    triggerOnce: true
   })
 
   const container = {

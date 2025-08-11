@@ -24,7 +24,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
@@ -40,7 +39,6 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,7 +60,7 @@ export function LoginForm({
 
     if (success) {
       toast.success(message as string);
-      router.push("/");
+      window.location.href = "/";
     } else {
       toast.error(message as string);
     }

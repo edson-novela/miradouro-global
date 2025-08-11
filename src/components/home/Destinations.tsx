@@ -7,7 +7,6 @@ import { useInView } from "react-intersection-observer";
 import { FiMapPin, FiStar } from "react-icons/fi";
 import { useEffect, useState } from "react";
 
-
 interface Destination {
   id: string;
   name: string;
@@ -21,75 +20,75 @@ interface Destination {
   mainImageUrl: string;
 }
 
-/*interface d {
-  d: Destination[];
-}*/
-
 export default function Destinations() {
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: false,
-  });
-
   // Removed unused setData state
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-useEffect(() => {
-  const fetchDestinations = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      // setData(null); // Removed as setData is not used
+  useEffect(() => {
+    const fetchDestinations = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        // setData(null); // Removed as setData is not used
 
-      const res = await fetch("/api/destinations/home");
-      const json = await res.json();
+        const res = await fetch("/api/destinations/home");
+        const json = await res.json();
 
-      if (!res.ok) {
-        throw new Error(json.error || "Erro desconhecido");
+        if (!res.ok) {
+          throw new Error(json.error || "Erro desconhecido");
+        }
+
+        const data = json.data;
+
+        interface ApiDestination {
+          id: string;
+          name: string;
+          slug: string;
+          description?: string;
+          shortDescription?: string;
+          location: string;
+          pricePerNight: number | string;
+          rating: number | string | null;
+          isFeatured: boolean;
+          mainImageUrl?: string;
+        }
+
+        setDestinations(
+          ((data || []) as ApiDestination[]).map(
+            (d: ApiDestination): Destination => ({
+              id: d.id,
+              name: d.name,
+              slug: d.slug,
+              description: d.description ?? "",
+              shortDescription: d.description ?? "",
+              location: d.location,
+              pricePerNight:
+                typeof d.pricePerNight === "string"
+                  ? Number(d.pricePerNight)
+                  : d.pricePerNight,
+              rating: d.rating !== null ? Number(d.rating) : 0,
+              isFeatured: d.isFeatured,
+              mainImageUrl: d.mainImageUrl ?? "",
+            })
+          )
+        );
+      } catch (err: unknown) {
+        console.error("Error fetching destinations:", err);
+        setError("Failed to load destinations");
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const data = json.data;
+    fetchDestinations();
+  }, []);
 
-      interface ApiDestination {
-        id: string;
-        name: string;
-        slug: string;
-        description?: string;
-        shortDescription?: string;
-        location: string;
-        pricePerNight: number | string;
-        rating: number | string | null;
-        isFeatured: boolean;
-        mainImageUrl?: string;
-      }
-
-      setDestinations(
-        ((data || []) as ApiDestination[]).map((d: ApiDestination): Destination => ({
-          id: d.id,
-          name: d.name,
-          slug: d.slug,
-          description: d.description ?? "",
-          shortDescription: d.description ?? "",
-          location: d.location,
-          pricePerNight: typeof d.pricePerNight === "string" ? Number(d.pricePerNight) : d.pricePerNight,
-          rating: d.rating !== null ? Number(d.rating) : 0,
-          isFeatured: d.isFeatured,
-          mainImageUrl: d.mainImageUrl ?? "",
-        }))
-      );
-    } catch (err: unknown) {
-      console.error("Error fetching destinations:", err);
-      setError("Failed to load destinations");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchDestinations();
-}, []);
-
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
 
   const container = {
     hidden: { opacity: 0 },
@@ -117,10 +116,48 @@ useEffect(() => {
     );
   }
 
-  if (error) {
+  if (loading) {
     return (
-      <div className="max-w-7xl mx-auto py-18 px-6 text-center text-red-500">
-        <p>{error}</p>
+      <div className="max-w-7xl mx-auto py-18 px-6">
+        {/* Header Skeleton */}
+        <div className="mb-16 animate-pulse">
+          <div className="h-10 w-64 bg-gray-200 rounded mb-4"></div>
+          <div className="h-4 w-80 bg-gray-200 rounded"></div>
+        </div>
+
+        {/* Grid Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {[...Array(4)].map((_, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-md overflow-hidden shadow-lg"
+            >
+              <div className="relative h-48 bg-gray-200 animate-pulse"></div>
+              <div className="p-4">
+                <div className="flex justify-between mb-3">
+                  <div className="h-5 w-3/4 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="flex items-center">
+                    <div className="h-4 w-4 bg-gray-200 rounded-full mr-1"></div>
+                    <div className="h-4 w-8 bg-gray-200 rounded"></div>
+                  </div>
+                </div>
+                <div className="space-y-2 mb-4">
+                  <div className="h-3 w-full bg-gray-200 rounded animate-pulse"></div>
+                  <div className="h-3 w-5/6 bg-gray-200 rounded animate-pulse"></div>
+                </div>
+                <div className="flex justify-between items-center">
+                  <div className="h-5 w-20 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Button Skeleton */}
+        <div className="text-center mt-24">
+          <div className="inline-block h-12 w-48 bg-gray-200 rounded-full animate-pulse"></div>
+        </div>
       </div>
     );
   }
